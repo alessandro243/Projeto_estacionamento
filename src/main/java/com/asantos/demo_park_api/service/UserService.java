@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -22,5 +24,10 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Usuário não encontrado")
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> foundAll() {
+        return userRepository.findAll();
     }
 }
