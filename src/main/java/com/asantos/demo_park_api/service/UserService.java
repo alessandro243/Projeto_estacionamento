@@ -5,7 +5,6 @@ import com.asantos.demo_park_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -29,5 +28,22 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<User> foundAll() {
         return userRepository.findAll();
+    }
+
+    @Transactional
+    public User changePassword(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
+
+        if (!novaSenha.equals(confirmaSenha)){
+            throw new RuntimeException("Nova senha não confere com confirmação de senha.");
+        }
+
+        User user = idFound(id);
+
+        if (!user.getPassword().equals(senhaAtual)){
+            throw new RuntimeException("Sua senha não confere.");
+        }
+
+        user.setPassword(novaSenha);
+        return user;
     }
 }

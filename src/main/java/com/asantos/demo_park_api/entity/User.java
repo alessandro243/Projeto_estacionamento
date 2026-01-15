@@ -21,11 +21,11 @@ public class User implements Serializable {
     private Long id;
     @Column(name = "username", nullable = false, unique = true, length = 100)
     private String username;
-    @Column(name = "password", nullable = false, length = 200)
+    @Column(name = "senhaAtual", nullable = false, length = 200)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 25)
-    private Role role;
+    private Role role = Role.ROLE_CLIENT;
 
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
@@ -45,6 +45,22 @@ public class User implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id);
+    }
+
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
