@@ -36,6 +36,10 @@ public class User implements Serializable {
     @Column(name = "modificado_por")
     private String modificadoPor;
 
+    public Object getname() {
+        return username;
+    }
+
     public enum Role{
         ROLE_ADMIN, ROLE_CLIENT
     }

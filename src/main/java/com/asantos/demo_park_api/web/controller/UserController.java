@@ -6,6 +6,7 @@ import com.asantos.demo_park_api.web.dto.UsersCreateDto;
 import com.asantos.demo_park_api.web.dto.mapper.UserMapper;
 import com.asantos.demo_park_api.web.dto.mapper.UserResponseDto;
 import com.asantos.demo_park_api.web.dto.mapper.UserSenhaDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> register(@RequestBody UsersCreateDto createDto){
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UsersCreateDto createDto){
         User user = userService.salvar(UserMapper.toUser(createDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(user));
     }
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updatePassword(@PathVariable Long id, @RequestBody UserSenhaDto dto){
+    public ResponseEntity<UserResponseDto> updatePassword(@PathVariable Long id, @Valid @RequestBody UserSenhaDto dto){
         User user = userService.changePassword(id, dto.getSenhaAtual(), dto.getNovaSenha(), dto.getConfirmaSenha());
         return ResponseEntity.ok(UserMapper.toDto(user));
     }
